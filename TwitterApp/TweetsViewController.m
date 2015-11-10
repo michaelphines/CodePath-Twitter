@@ -23,21 +23,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUpNavigationBar];
+    [self setUpTableView];
+    
+    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+        self.tweets = tweets;
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)setUpNavigationBar {
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(onLogoutTap:)];
     self.navigationItem.rightBarButtonItem = logoutButton;
-    
+}
+
+- (void)setUpTableView {
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.estimatedRowHeight = 100.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     [self.tableView registerNib:[UINib nibWithNibName:@"TweetTableViewCell" bundle:nil] forCellReuseIdentifier:@"tweet"];
-
-    
-    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-        self.tweets = tweets;
-        [self.tableView reloadData];
-    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
