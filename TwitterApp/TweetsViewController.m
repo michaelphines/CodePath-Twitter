@@ -7,6 +7,7 @@
 //
 
 #import "TweetsViewController.h"
+#import "ComposeViewController.h"
 #import "TweetTableViewCell.h"
 #import "TwitterClient.h"
 #import "User.h"
@@ -38,7 +39,9 @@
 
 - (void)setUpNavigationBar {
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(onLogoutTap:)];
-    self.navigationItem.rightBarButtonItem = logoutButton;
+    UIBarButtonItem *composeButton = [[UIBarButtonItem alloc] initWithTitle:@"Compose" style:UIBarButtonItemStylePlain target:self action:@selector(onComposeTap:)];
+    self.navigationItem.leftBarButtonItem = logoutButton;
+    self.navigationItem.rightBarButtonItem = composeButton;
 }
 
 - (void)setUpTableView {
@@ -71,6 +74,10 @@
 
 - (IBAction)onLogoutTap:(id)sender {
     [User logout];
+}
+
+- (IBAction)onComposeTap:(id)sender {
+    [self.navigationController pushViewController:[ComposeViewController new] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
