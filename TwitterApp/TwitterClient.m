@@ -69,6 +69,7 @@ NSString * const kTwitterConsumerBaseUrl = @"https://api.twitter.com";
 
 - (void)homeTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion {
     [self GET:@"1.1/statuses/home_timeline.json" parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSLog(@"%@", responseObject);
         NSArray *tweets = [Tweet tweetsWithArray:responseObject];
         completion(tweets, nil);
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
@@ -76,14 +77,21 @@ NSString * const kTwitterConsumerBaseUrl = @"https://api.twitter.com";
     }];
 }
 
-- (void)postTweet:(NSString *)tweet completion:(void (^)(NSError *error))completion {
-    [self POST:@"1.1/statuses/update.json" parameters:@{ @"status": tweet }success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        NSLog(@"Post success: %@", responseObject);
+- (void)postTweet:(NSString *)tweetText parent:(Tweet *)parentTweet completion:(void (^)(NSError *error))completion {
+    [self POST:@"1.1/statuses/update.json" parameters:@{ @"status": tweetText } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         completion(nil);
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         completion(error);
-        NSLog(@"Post failure: %@", error);
     }];
+}
+
+- (void)retweet:(Tweet *)tweet {
+    NSString *urlString = [NSString stringWithFormat:@"1.1/statuses/retweet/%@.json", tweet.tweetId];
+    [self POST:urlString parameters:nil success:nil failure: nil];
+}
+
+- (void)favorite:(Tweet *)tweet {
+    [self POST:@"1.1/favorites/create.json" parameters:@{ @"id": tweet.tweetId } success:nil failure: nil];
 }
 
 @end

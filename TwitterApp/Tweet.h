@@ -14,6 +14,7 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 + (NSArray *)tweetsWithArray:(NSArray *)array;
 
+@property (strong, nonatomic) NSNumber *tweetId;
 @property (strong, nonatomic) NSString *text;
 @property (strong, nonatomic) NSDate *createdAt;
 @property (strong, nonatomic) User *user;

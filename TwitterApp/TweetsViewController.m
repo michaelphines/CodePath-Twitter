@@ -7,6 +7,7 @@
 //
 
 #import "TweetsViewController.h"
+#import "TweetDetailViewController.h"
 #import "ComposeViewController.h"
 #import "TweetTableViewCell.h"
 #import "TwitterClient.h"
@@ -70,6 +71,13 @@
     Tweet *tweet = self.tweets[indexPath.row];
     [cell setTweet:tweet];
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    TweetDetailViewController *vc = [TweetDetailViewController new];
+    [vc setTweet:self.tweets[indexPath.row]];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)onLogoutTap:(id)sender {

@@ -11,6 +11,7 @@
 
 @interface ComposeViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *composeTextView;
+@property (strong, nonatomic) Tweet *parentTweet;
 
 @end
 
@@ -21,6 +22,9 @@
     self.title = @"Compose";
     [self.composeTextView becomeFirstResponder];
     UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc] initWithTitle:@"Tweet" style:UIBarButtonItemStylePlain target:self action:@selector(onTweetTap:)];
+    if (self.parentTweet != nil) {
+        self.composeTextView.text = [NSString stringWithFormat:@"@%@ ", self.parentTweet.user.handle];
+    }
     self.navigationItem.rightBarButtonItem = tweetButton;
 }
 
@@ -28,7 +32,8 @@
     NSString *tweet = self.composeTextView.text;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[TwitterClient sharedInstance] postTweet:tweet completion:^(NSError *error) {
+        
+        [[TwitterClient sharedInstance] postTweet:tweet parent:self.parentTweet completion:^(NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (error == nil) {
                     [self.navigationController popViewControllerAnimated:YES];

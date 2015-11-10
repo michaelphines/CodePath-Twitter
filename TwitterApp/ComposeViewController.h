@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Tweet.h"
 
 @interface ComposeViewController : UIViewController
+
+- (void)setParentTweet:(Tweet *)parentTweet;
 
 @end
