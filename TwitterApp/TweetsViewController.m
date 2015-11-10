@@ -28,7 +28,11 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.estimatedRowHeight = 100.0;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"TweetTableViewCell" bundle:nil] forCellReuseIdentifier:@"tweet"];
+
     
     [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
         self.tweets = tweets;
@@ -43,7 +47,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"tweet"];
     Tweet *tweet = self.tweets[indexPath.row];
-    [cell setTweetText:tweet.text];
+    [cell setTweet:tweet];
     return cell;
 }
 

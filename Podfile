@@ -6,6 +6,8 @@ platform :ios, '8.0'
 target 'TwitterApp' do
 
   pod "BDBOAuth1Manager"
+  pod "AFNetworking"
+  pod "NSDate+TimeAgo"
 
 end
 

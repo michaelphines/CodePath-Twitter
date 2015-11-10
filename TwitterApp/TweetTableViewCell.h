@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Tweet.h"
 
 @interface TweetTableViewCell : UITableViewCell
 
-- (void)setTweetText:(NSString *)tweetText;
+- (void)setTweet:(Tweet *)tweet;
 
 @end

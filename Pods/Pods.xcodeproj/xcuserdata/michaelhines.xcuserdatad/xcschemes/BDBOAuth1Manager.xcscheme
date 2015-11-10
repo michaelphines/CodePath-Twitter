@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '3FFD69641CABB3CFEBE48623'
+               BlueprintIdentifier = '948FCF849C7FC47E5A9BB1AC'
                BlueprintName = 'BDBOAuth1Manager'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libBDBOAuth1Manager.a'>

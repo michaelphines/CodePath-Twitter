@@ -7,9 +7,15 @@
 //
 
 #import "TweetTableViewCell.h"
+#import <UIImageView+AFNetworking.h>
+#import "NSDate+TimeAgo.h"
 
 @interface TweetTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *tweetLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet UILabel *handleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timestampLabel;
 
 @end
 
@@ -19,9 +25,12 @@
     // Initialization code
 }
 
-- (void)setTweetText:(NSString *)tweetText {
-    NSLog(@"Setting tweet text");
-    self.tweetLabel.text = tweetText;
+- (void)setTweet:(Tweet *)tweet {
+    self.tweetLabel.text = tweet.text;
+    self.handleLabel.text = [@"@" stringByAppendingString:tweet.user.handle];
+    self.nameLabel.text = tweet.user.name;
+    self.timestampLabel.text = [[tweet.createdAt timeAgo] lowercaseString];
+    [self.profileImageView setImageWithURL:tweet.user.profileImageURL];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
