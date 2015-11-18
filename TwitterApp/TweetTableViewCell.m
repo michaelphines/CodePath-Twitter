@@ -7,6 +7,7 @@
 //
 
 #import "TweetTableViewCell.h"
+#import "ProfileViewController.h"
 #import <UIImageView+AFNetworking.h>
 #import "NSDate+TimeAgo.h"
 
@@ -22,10 +23,17 @@
 @implementation TweetTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onProfileImageTap)];
+    [self.profileImageView setUserInteractionEnabled:YES];
+    [self.profileImageView addGestureRecognizer:tap];
+}
+
+- (IBAction)onProfileImageTap {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"profileTappedNotification" object: nil userInfo: @{@"user": self.tweet.user}];
 }
 
 - (void)setTweet:(Tweet *)tweet {
+    _tweet = tweet;
     self.tweetLabel.text = tweet.text;
     self.handleLabel.text = [@"@" stringByAppendingString:tweet.user.handle];
     self.nameLabel.text = tweet.user.name;

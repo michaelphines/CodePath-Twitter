@@ -11,6 +11,7 @@
 
 @interface TweetTableViewCell : UITableViewCell
 
-- (void)setTweet:(Tweet *)tweet;
+@property (strong, nonatomic) Tweet *tweet;
+@property (strong, nonatomic) UINavigationController *navigationController;
 
 @end

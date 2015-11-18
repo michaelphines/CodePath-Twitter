@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "HamburgerViewController.h"
+#import "MenuViewController.h"
 #import "TweetsViewController.h"
 #import "TwitterClient.h"
 #import "User.h"
@@ -29,14 +31,19 @@
     User *user = [User currentUser];
     UIViewController *vc = nil;
     if (user != nil) {
-        vc = [[TweetsViewController alloc] init];
+        HamburgerViewController *hamburgerViewController = [HamburgerViewController new];
+        MenuViewController *menuViewController = [MenuViewController new];
+        
+        menuViewController.hamburgerViewController = hamburgerViewController;
+        hamburgerViewController.menuViewController = menuViewController;
+        
+        vc = hamburgerViewController;
     } else {
-        vc = [[LoginViewController alloc] init];
+        vc = [LoginViewController new];
     }
     
-    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
-
-    self.window.rootViewController = nvc;
+    self.window.rootViewController = vc;
+    
 }
 
 - (void)userDidLogout {

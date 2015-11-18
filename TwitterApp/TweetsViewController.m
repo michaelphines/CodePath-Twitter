@@ -8,6 +8,7 @@
 
 #import "TweetsViewController.h"
 #import "TweetDetailViewController.h"
+#import "ProfileViewController.h"
 #import "ComposeViewController.h"
 #import "TweetTableViewCell.h"
 #import "TwitterClient.h"
@@ -24,12 +25,30 @@
 
 @implementation TweetsViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.endpoint = TweetsViewControllerEndpointHome;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpNavigationBar];
     [self setUpTableView];
+    [self setUpListeners];
     [self setUpRefreshControl];
     [self refresh];
+}
+
+- (void)setUpListeners {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProfileTap:) name:@"profileTappedNotification" object:nil];
+}
+
+- (void)onProfileTap:(NSNotification *)notification {
+    ProfileViewController *vc = [ProfileViewController new];
+    vc.user = [[notification userInfo] valueForKey:@"user"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)setUpRefreshControl {
@@ -55,11 +74,19 @@
 }
 
 - (void)refresh {
-    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-        [self.refreshControl endRefreshing];
-        self.tweets = tweets;
-        [self.tableView reloadData];
-    }];
+    if (self.endpoint == TweetsViewControllerEndpointMentions) {
+        [[TwitterClient sharedInstance] mentionsWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+            [self.refreshControl endRefreshing];
+            self.tweets = tweets;
+            [self.tableView reloadData];
+        }];
+    } else {
+        [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+            [self.refreshControl endRefreshing];
+            self.tweets = tweets;
+            [self.tableView reloadData];
+        }];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -69,6 +96,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"tweet"];
     Tweet *tweet = self.tweets[indexPath.row];
+    cell.navigationController = [self navigationController];
     [cell setTweet:tweet];
     return cell;
 }

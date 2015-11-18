@@ -43,8 +43,6 @@
             UIViewController *vc = [[TweetsViewController alloc] initWithNibName:@"TweetsViewController" bundle:nil];
             vc.navigationItem.hidesBackButton = YES;
             [self.navigationController pushViewController:vc animated:YES];
-            NSLog(@"Logged in");
-            NSLog(@"NVC: %@", self.navigationController);
         } else {
             // TODO: Present error
         }

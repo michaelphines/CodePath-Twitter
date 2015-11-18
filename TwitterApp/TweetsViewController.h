@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+enum TweetsViewControllerEndpoint : NSUInteger {
+    TweetsViewControllerEndpointHome = 1,
+    TweetsViewControllerEndpointMentions = 2
+};
+
 @interface TweetsViewController : UIViewController
+
+@property (nonatomic, assign) enum TweetsViewControllerEndpoint endpoint;
 
 @end

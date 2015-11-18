@@ -16,6 +16,7 @@
 - (void)loginWithCompletion:(void (^)(User *user, NSError* error))completion;
 - (void)openURL:(NSURL *)url;
 - (void)homeTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion;
+- (void)mentionsWithParams:(NSDictionary *)params completion:(void (^)(NSArray *, NSError *))completion;
 - (void)postTweet:(NSString *)tweetText parent:(Tweet *)parentTweet completion:(void (^)(NSError *error))completion;
 - (void)retweet:(Tweet *)tweet;
 - (void)favorite:(Tweet *)tweet;
