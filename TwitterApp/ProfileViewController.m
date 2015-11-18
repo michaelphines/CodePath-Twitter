@@ -25,24 +25,20 @@
     [super viewDidLoad];
     if (self.user == nil) {
         self.user = [User currentUser];
+        self.title = @"My Profile";
     }
+    
+    [self.profileImageView setImageWithURL:self.user.profileImageURL];
+    self.usernameLabel.text = [@"@" stringByAppendingString:self.user.handle];
+    self.realNameLabel.text = self.user.name;
+    self.tweetsLabel.text = [NSString stringWithFormat:@"%@ tweets", self.user.tweetCount];
+    self.followingLabel.text = [NSString stringWithFormat:@"%@ following", self.user.followingCount];
+    self.followersLabel.text = [NSString stringWithFormat:@"%@ followers", self.user.followerCount];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)setUser:(User *)user {
-    NSLog(@"Setting user");
-    _user = user;
-    
-    [self.profileImageView setImageWithURL:user.profileImageURL];
-    self.usernameLabel.text = [@"@" stringByAppendingString:user.handle];
-    self.realNameLabel.text = user.name;
-    self.tweetsLabel.text = [NSString stringWithFormat:@"%@ tweets", user.tweetCount];
-    self.followingLabel.text = [NSString stringWithFormat:@"%@ following", user.followingCount];
-    self.followersLabel.text = [NSString stringWithFormat:@"%@ followers", user.followerCount];
 }
 
 /*

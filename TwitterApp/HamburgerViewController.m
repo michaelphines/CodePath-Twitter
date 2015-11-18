@@ -57,6 +57,7 @@
     nvc.view.frame = self.view.frame;
     
     [nvc willMoveToParentViewController:self];
+    [self addChildViewController:nvc];
     [self.contentView addSubview:nvc.view];
     [nvc didMoveToParentViewController:self];
     

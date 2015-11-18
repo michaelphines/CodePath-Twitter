@@ -20,7 +20,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogout) name:UserDidLogoutNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAppropriateView) name:UserDidLogoutNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAppropriateView) name:UserDidLoginNotification object:nil];
     [self showAppropriateView];
     [self.window makeKeyAndVisible];
     
@@ -44,10 +45,6 @@
     
     self.window.rootViewController = vc;
     
-}
-
-- (void)userDidLogout {
-    [self showAppropriateView];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

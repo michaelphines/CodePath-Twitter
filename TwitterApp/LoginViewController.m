@@ -40,9 +40,7 @@
 - (IBAction)onLoginTap:(id)sender {
     [[TwitterClient sharedInstance] loginWithCompletion:^(User *user, NSError *error) {
         if (user != nil) {
-            UIViewController *vc = [[TweetsViewController alloc] initWithNibName:@"TweetsViewController" bundle:nil];
-            vc.navigationItem.hidesBackButton = YES;
-            [self.navigationController pushViewController:vc animated:YES];
+            [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLoginNotification object:nil];
         } else {
             // TODO: Present error
         }
